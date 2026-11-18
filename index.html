@@ -54,7 +54,7 @@ allowfullscreen></iframe>
 <button onclick="move(-1)">◀ Zurück</button>
 <button onclick="move(1)">Weiter ▶</button>
 </div>
-<h3>Meine 20 Tänze</h3>
+<h3>Meine 21 Tänze</h3>
 <div id="list"></div>
 </main>
 <script>
@@ -87,7 +87,7 @@ name:"Tanz "+(i+20),id:""
 
 let selected=-1;
 function show(i){
-if(i<0||i>=20)return;
+if(i<0||i>=21)return;
 selected=i;
 const d=dances[i];
 document.getElementById("current").textContent=d.name;
