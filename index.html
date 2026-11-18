@@ -79,7 +79,7 @@ const dances=[
 {name:"Mambo No. 5",id:"2sworR7ZxJI"},
 {name:"Monster Holiday",id:"qsREdgfy5eM"},
 {name:"Cherokee Boogie",id:"YrgroJu7FiQ"},
- {name:"Baby Belle",id:"qG5GOCMqspo"},
+ {name:"Baby Belle",id:"qG5GOCMqspo"}
 ...Array.from({length:1},(_,i)=>({
 name:"Tanz "+(i+20),id:""
 }))
@@ -87,7 +87,7 @@ name:"Tanz "+(i+20),id:""
 
 let selected=-1;
 function show(i){
-if(i<0||i>=21)return;
+if(i<0||i>=dances.length)return;
 selected=i;
 const d=dances[i];
 document.getElementById("current").textContent=d.name;
@@ -103,7 +103,7 @@ m.querySelector("p").textContent=d.name+" – noch kein Video";
 try{localStorage.setItem("lastDance",i)}catch(e){}
 render();
 }
-function move(dir){show(Math.max(0,Math.min(19,selected+dir)))}
+function move(dir){show(Math.max(0,Math.min(dances.length-1,selected+dir)))}
 function render(){
 const l=document.getElementById("list");
 l.innerHTML="";
