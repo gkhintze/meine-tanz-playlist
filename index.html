@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="referrer" content="strict-origin-when-cross-origin">
+<meta name="theme-color" content="#263e52">
+<title>Meine Tanz-Playlist</title>
+<style>
+*{box-sizing:border-box}
+body{margin:0;font-family:Arial,sans-serif;background:#eef1f4;color:#243342}
+header{background:#263e52;color:white;text-align:center;padding:20px}
+main{max-width:750px;margin:auto;padding:14px}
+.player{background:#111;border-radius:12px;overflow:hidden}
+iframe{width:100%;aspect-ratio:16/9;border:0;display:block}
+#message{color:white;text-align:center;padding:35px 10px}
+.controls{display:flex;gap:10px;margin:14px 0}
+button{padding:13px;border:0;border-radius:9px;background:#315d82;color:white;font-size:15px}
+.controls button{flex:1}
+.entry{display:flex;gap:12px;padding:16px;background:white;border-radius:10px;margin:8px 0;cursor:pointer}
+.entry.active{background:#d5e7f5;font-weight:bold}
+.num{color:#315d82}
+</style>
+</head>
+<body>
+<header>
+<h1>💃 Meine Tanz-App 🕺</h1>
+Meine persönliche Tanzsammlung
+</header>
+<main>
+<div class="player">
+<div id="message">🎵<p>Wähle einen Tanz aus</p></div>
+<iframe id="video" hidden
+allow="autoplay; encrypted-media; picture-in-picture"
+allowfullscreen></iframe>
+</div>
+<h2 id="current">Meine Tänze</h2>
+<div class="controls">
+<button onclick="move(-1)">◀ Zurück</button>
+<button onclick="move(1)">Weiter ▶</button>
+</div>
+<h3>Meine 20 Tänze</h3>
+<div id="list"></div>
+</main>
+<script>
+const dances=[
+{name:"Rio",id:"xYIqXH60rso"},
+...Array.from({length:19},(_,i)=>({
+name:"Tanz "+(i+2),id:""
+}))
+];
+let selected=-1;
+function show(i){
+if(i<0||i>=20)return;
+selected=i;
+const d=dances[i];
+document.getElementById("current").textContent=d.name;
+const v=document.getElementById("video");
+const m=document.getElementById("message");
+if(d.id){
+v.src="https://www.youtube.com/embed/"+d.id;
+v.hidden=false;m.hidden=true;
+}else{
+v.src="";v.hidden=true;m.hidden=false;
+m.querySelector("p").textContent=d.name+" – noch kein Video";
+}
+try{localStorage.setItem("lastDance",i)}catch(e){}
+render();
+}
+function move(dir){show(Math.max(0,Math.min(19,selected+dir)))}
+function render(){
+const l=document.getElementById("list");
+l.innerHTML="";
+dances.forEach((d,i)=>{
+const e=document.createElement("div");
+e.className="entry"+(selected===i?" active":"");
+const n=document.createElement("span");
+n.className="num";
+n.textContent=String(i+1).padStart(2,"0");
+const t=document.createElement("span");
+t.textContent=d.name;
+e.append(n,t);
+e.onclick=()=>show(i);
+l.append(e);
+});
+}
+render();
+</script>
+</body>
+</html>
